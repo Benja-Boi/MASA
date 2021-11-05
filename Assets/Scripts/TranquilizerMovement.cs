@@ -6,8 +6,8 @@ public class TranquilizerMovement : MonoBehaviour
 {
     [SerializeField]
     float rotationRadius = 3f;
+    public Transform pivot;
 
-    Vector2 pivot;
     Vector2 mousePos;
     Vector2 dir;
 
@@ -18,7 +18,6 @@ public class TranquilizerMovement : MonoBehaviour
 
     void Update()
     {
-        pivot = transform.parent.position + new Vector3(0f, .75f, 0f);
         FaceTowardsMousePosition();
         RotateAroundCenter();
     }
@@ -26,12 +25,13 @@ public class TranquilizerMovement : MonoBehaviour
     void FaceTowardsMousePosition()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        dir = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
+        dir = new Vector2(mousePos.x - pivot.position.x, mousePos.y - pivot.position.y);
         transform.up = dir;
     }
 
     void RotateAroundCenter()
     {
-        transform.position = pivot + dir.normalized * rotationRadius;
+        transform.position = (Vector2)pivot.position + dir.normalized * rotationRadius;
+        Debug.Log(dir.normalized);
     }
 }
