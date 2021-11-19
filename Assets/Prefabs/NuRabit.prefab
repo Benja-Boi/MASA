@@ -192,6 +192,7 @@ MonoBehaviour:
   alaramRadius: 4
   dist: 0
   sleepTimeLeft: 0
+  sprite: {fileID: 8189749608365405294}
 --- !u!1 &9121434522702308613
 GameObject:
   m_ObjectHideFlags: 0

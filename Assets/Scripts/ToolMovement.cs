@@ -12,7 +12,7 @@ public class ToolMovement : MonoBehaviour
     private SpriteRenderer sr;
 
     Vector2 mousePos;
-    Vector2 dir;
+    public Vector2 dir;
 
     void Start()
     {

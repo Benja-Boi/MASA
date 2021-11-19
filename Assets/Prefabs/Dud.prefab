@@ -319,7 +319,7 @@ Transform:
   - {fileID: 7661326769060682569}
   - {fileID: 5120221020213977496}
   m_Father: {fileID: 8770860601581472850}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8890932834882407223
 MonoBehaviour:
@@ -335,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationRadius: 1
   pivot: {fileID: 8770860600604356761}
+  dir: {x: 0, y: 0}
 --- !u!212 &6258449650974606147
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -398,6 +399,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78ff43264ebc854ca14cf5385f3adbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  net: {fileID: 0}
+  firingPoint: {fileID: 0}
+  maxFiringSpeed: 0
+  firingSpeedModifier: 0
+  maxChargeTime: 1.5
+  slider: {fileID: 0}
 --- !u!1 &6948994722304631148
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +536,7 @@ GameObject:
   m_Layer: 0
   m_Name: Item Pivot
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -544,8 +551,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8770860601581472850}
-  m_RootOrder: 2
+  m_Father: {fileID: 8770860601125646213}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8770860600616104534
 GameObject:
@@ -769,7 +776,7 @@ Transform:
   - {fileID: 8770860601350396373}
   - {fileID: 8770860600616104535}
   m_Father: {fileID: 8770860601581472850}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8770860601095140140
 MonoBehaviour:
@@ -785,6 +792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationRadius: 0.2
   pivot: {fileID: 8770860600604356761}
+  dir: {x: 0, y: 0}
 --- !u!212 &8770860601095140115
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -853,6 +861,7 @@ MonoBehaviour:
   maxFiringSpeed: 30
   firingSpeedModifier: 0
   maxChargeTime: 1.5
+  knockBackForce: 20
   slider: {fileID: 8770860601049440410}
 --- !u!1 &8770860601125646212
 GameObject:
@@ -884,6 +893,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8770860601361711828}
+  - {fileID: 8770860600604356761}
   m_Father: {fileID: 8770860601581472850}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1107,7 +1117,6 @@ Transform:
   m_Children:
   - {fileID: 8770860601125646213}
   - {fileID: 8770860601821870330}
-  - {fileID: 8770860600604356761}
   - {fileID: 8770860601095140114}
   - {fileID: 7404548177572818538}
   m_Father: {fileID: 0}

@@ -16,8 +16,17 @@ public class DartShooter : MonoBehaviour
     [SerializeField]
     float maxChargeTime = 1.5f;
 
+    public float knockBackForce = 20f;
     public Slider slider;
     bool isCharging = false;
+    DudController player;
+    ToolMovement movementScript;
+
+    private void Start()
+    {
+        player = FindObjectOfType<DudController>();
+        movementScript = GetComponent<ToolMovement>();
+    }
 
 
     void Update()
@@ -31,6 +40,7 @@ public class DartShooter : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
+            slider.gameObject.SetActive(true);
             isCharging = true;
         }
         if (Input.GetButtonUp("Fire1"))
@@ -41,10 +51,17 @@ public class DartShooter : MonoBehaviour
 
     void ShootDart()
     {
-        isCharging = false;
         DartMovement newDart = Instantiate<DartMovement>(dart, firingPoint.position, transform.rotation);
         newDart.speed = firingSpeedModifier * maxFiringSpeed;
         newDart.IsShot = true;
+        player.KnockBack(-movementScript.dir.normalized, knockBackForce * firingSpeedModifier);
+        ResetParameters();
+    }
+
+    void ResetParameters()
+    {
+        isCharging = false;
         firingSpeedModifier = 0;
+        slider.gameObject.SetActive(false);
     }
 }

@@ -14,6 +14,7 @@ public class DudController : MonoBehaviour
     {
         animator.SetBool("isIdle", true);
     }
+
     void Update()
     {
         //get inputs and calculate direction
@@ -24,7 +25,6 @@ public class DudController : MonoBehaviour
 
         //move the player
         transform.Translate(velocity);
-        
 
         //Animation
         if (direction.x != 0 || direction.y !=0)
@@ -41,5 +41,25 @@ public class DudController : MonoBehaviour
         
         
         
+    }
+
+    public void KnockBack(Vector2 dir, float force)
+    {
+        Debug.Log(force);
+        StartCoroutine(Knock(dir, force));
+    }
+
+    IEnumerator Knock(Vector2 dir, float force)
+    {
+        float timer = 0;
+        int i = 0;
+        while (timer <= .2f)
+        {
+            timer += Time.deltaTime;
+            transform.Translate(dir * force * Time.deltaTime * 5*(0.2f - timer));
+            yield return null;
+            i++;
+        }
+
     }
 }

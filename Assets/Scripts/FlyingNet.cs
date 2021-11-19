@@ -46,7 +46,6 @@ public class FlyingNet : MonoBehaviour
             {
                 LayNet();
                 netLaid = true;
-                //StartCoroutine(DestroyNet());
                 StartCoroutine(DestroyNet());
             }
         }
@@ -55,11 +54,11 @@ public class FlyingNet : MonoBehaviour
     IEnumerator DestroyNet()
     {
         yield return new WaitForSeconds(captureTime);
-        //frontRightCorner.DestroyCorner();
-        //frontLeftCorner.DestroyCorner();
-        //backRightCorner.DestroyCorner();
-        //backLeftCorner.DestroyCorner();
-        //Destroy(this.gameObject);
+        frontRightCorner.DestroyCorner();
+        frontLeftCorner.DestroyCorner();
+        backRightCorner.DestroyCorner();
+        backLeftCorner.DestroyCorner();
+        Destroy(this.gameObject);
     }
 
     void RotateCorners()

@@ -24,7 +24,6 @@ public class Rbit : MonoBehaviour
     private Vector2 moveDir = Vector2.zero;
     private Animator animator;
     public float sleepTimeLeft;
-    private float sleepTimer;
     private Transform player;
     private ParticleSystem ps;
 
@@ -39,10 +38,13 @@ public class Rbit : MonoBehaviour
         player = FindObjectOfType<DudController>().transform;
         ps = GetComponentInChildren<ParticleSystem>();
         ps.Stop();
+        
     }
 
     void Update()
     {
+        
+
         currentState = stateStack.Peek();
         dist = Vector2.Distance(transform.position, player.position);
         switch (currentState)
@@ -61,9 +63,10 @@ public class Rbit : MonoBehaviour
                 break;
             default:
                 break;
-        }      
+        }
 
-        transform.localScale = new Vector3(Mathf.Sign(moveDir.x), 1, 1);
+        transform.localScale = new Vector3(Mathf.Sign(moveDir.x),1f,1f);
+        //Debug.Log(Mathf.Sign(moveDir.x));
     }
 
     void Wander()
@@ -101,6 +104,7 @@ public class Rbit : MonoBehaviour
             {
                 stateStack.Pop();
                 ps.Stop();
+                animator.SetBool("isSleeping", false);
             }
 
         }
@@ -160,6 +164,7 @@ public class Rbit : MonoBehaviour
     public void Tranquilize(float sleepTime)
     {
         stateStack.Push(States.Sleeping);
+        animator.SetBool("isSleeping", true);
         sleepTimeLeft = sleepTime;
         ps.Play();
     }
