@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TranquilizerMovement : MonoBehaviour
+public class ToolMovement : MonoBehaviour
 {
     [SerializeField]
     float rotationRadius = 3f;
+  
+
     public Transform pivot;
+    private SpriteRenderer sr;
 
     Vector2 mousePos;
     Vector2 dir;
 
     void Start()
     {
-        
+       sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
+        UpdateSortingOrder();
         FaceTowardsMousePosition();
         RotateAroundCenter();
+        MaybeFlipSide();
     }
 
     void FaceTowardsMousePosition()
@@ -32,6 +37,28 @@ public class TranquilizerMovement : MonoBehaviour
     void RotateAroundCenter()
     {
         transform.position = (Vector2)pivot.position + dir.normalized * rotationRadius;
-        Debug.Log(dir.normalized);
+    }
+
+    void UpdateSortingOrder()
+    {
+        if (mousePos.y > pivot.position.y)
+        {
+            sr.sortingOrder = -5;
+        } else
+        {
+            sr.sortingOrder = 5;
+        }
+    }
+
+    void MaybeFlipSide()
+    {
+        if (mousePos.x > pivot.position.x)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }

@@ -4,83 +4,137 @@ using UnityEngine;
 
 public class Rbit : MonoBehaviour
 {
-    public enum ActivityStates
+    public enum States
     {
+        Jumping,
         Wandering,
         Escaping,
         Sleeping
     }
-    public ActivityStates currentState;
-    public Transform player;
+    [SerializeField]
+    States currentState;
+    Stack<States> stateStack = new Stack<States>();
 
     [Range(0f, 0.005f)]
     public float jumpProbabilty = 0.001f;
     public float hopSpeed = 10f;
-    public float alaramRadius = 4f;
-
-    private bool isJumping = false;
-    private bool isEscaping = false;
-    public Vector2 moveDir;
+    public float alaramRadius = 1f;
+    public float dist;
+    
+    private Vector2 moveDir = Vector2.zero;
     private Animator animator;
+    public float sleepTimeLeft;
+    private float sleepTimer;
+    private Transform player;
+    private ParticleSystem ps;
+
+    private void Awake()
+    {
+        stateStack.Push(States.Wandering);
+    }
 
     void Start()
     {
         animator = GetComponent<Animator>();
         player = FindObjectOfType<DudController>().transform;
+        ps = GetComponentInChildren<ParticleSystem>();
+        ps.Stop();
     }
 
     void Update()
     {
-        UpdateCurrentState();
-
+        currentState = stateStack.Peek();
+        dist = Vector2.Distance(transform.position, player.position);
         switch (currentState)
         {
-            case ActivityStates.Wandering:
+            case States.Wandering:
                 Wander();
                 break;
-            case ActivityStates.Escaping:
+            case States.Escaping:
                 Escape();
                 break;
-            case ActivityStates.Sleeping:
+            case States.Sleeping:
+                Sleep();
+                break;
+            case States.Jumping:
+                Jump();
                 break;
             default:
                 break;
-        }
-
-        if (isJumping)
-        {
-            transform.position += (Vector3)moveDir * hopSpeed * Time.deltaTime;
-        }
+        }      
 
         transform.localScale = new Vector3(Mathf.Sign(moveDir.x), 1, 1);
     }
 
     void Wander()
     {
-        if (IsSpontaneouslyJumping())
+        if (Vector2.Distance(transform.position, player.position) < alaramRadius)
         {
-            Jump();
+            stateStack.Push(States.Escaping);
         }
+        else if (IsSpontaneouslyJumping())
+        {
+            StartJumping();
+        }
+
     }
 
     void Escape()
     {
-        isEscaping = true;
-        Jump();
+        if (!(Vector2.Distance(transform.position, player.position) < alaramRadius) && stateStack.Peek() == States.Escaping)
+        {
+            stateStack.Pop();
+        }
+        else
+        {
+            stateStack.Push(States.Escaping);
+            StartJumping();
+        }
     }
 
+    void Sleep()
+    {
+        sleepTimeLeft -= Time.deltaTime;
+        if (sleepTimeLeft < 0)
+        {
+            if (stateStack.Peek() == States.Sleeping)
+            {
+                stateStack.Pop();
+                ps.Stop();
+            }
+
+        }
+    }
 
     void Jump()
     {
+        
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        {
+            StopJumping();
+        }
+        else
+        {
+            dist = Vector2.Distance(transform.position, player.position);
+            float urgency = Mathf.Max(3 - (dist / 3), 1);
+            transform.position += (Vector3)moveDir * hopSpeed * urgency * Time.deltaTime;
+        }
+    }
+
+    void StartJumping()
+    {
+        stateStack.Push(States.Jumping);
         animator.SetBool("isRunning", true);
-        PickMoveDir();
-        isJumping = true;
+        GetMoveDir();
     }
 
     void StopJumping()
     {
         animator.SetBool("isRunning", false);
-        isJumping = false;
+        if (stateStack.Peek() == States.Jumping)
+        {
+            stateStack.Pop();
+        }
     }
 
     bool IsSpontaneouslyJumping()
@@ -90,9 +144,9 @@ public class Rbit : MonoBehaviour
         return rand < jumpProbabilty;
     }
 
-    void PickMoveDir()
+    void GetMoveDir()
     {
-        if (isEscaping)
+        if (currentState == States.Escaping)
         {
             moveDir = - (player.position - transform.position);
         }
@@ -103,17 +157,10 @@ public class Rbit : MonoBehaviour
         moveDir.Normalize();
     }
 
-    void UpdateCurrentState()
+    public void Tranquilize(float sleepTime)
     {
-        if (Vector2.Distance(transform.position, player.position) < alaramRadius)
-        {
-
-            currentState = ActivityStates.Escaping;
-        }
-        else
-        {
-            currentState = ActivityStates.Wandering;
-            isEscaping = false;
-        }
+        stateStack.Push(States.Sleeping);
+        sleepTimeLeft = sleepTime;
+        ps.Play();
     }
 }
