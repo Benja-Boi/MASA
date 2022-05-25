@@ -11,6 +11,7 @@ public class DartMovement : MonoBehaviour
     public float minSpeed = .5f;
     public float speed;
     public ParticleSystem ps;
+    int j;
 
     [SerializeField]
     float tranquilTime = 3f;

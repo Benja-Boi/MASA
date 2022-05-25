@@ -515,7 +515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rabbitPrefab: {fileID: 8189749608899862146, guid: 29dc9b81a547bb74cb855434802da7f3, type: 3}
   boxCollider: {fileID: 0}
-  startingCount: 1
+  startingCount: 127
 --- !u!1 &1495966592
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,11 +735,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 945839312607796668, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 945839312607796668, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3367305326142003263, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: net
@@ -763,7 +763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4259520900605769996, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8770860600604356760, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: m_Icon
@@ -795,7 +795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8770860601095140113, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8770860601095140141, guid: e72b4b25135b69741942f98309f66f73, type: 3}
       propertyPath: movementScript
